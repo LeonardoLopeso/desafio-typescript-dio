@@ -1,11 +1,16 @@
-import { Footer } from "./Footer"
-import { Header } from "./Header/Header"
+import { ReactNode } from 'react'
+import { Footer } from './Footer'
+import { Header } from './Header/Header'
 
-export const Layout = ({ children }: any) => {
-  return(
+interface ILayout {
+  children: ReactNode
+}
+
+export const Layout = ({ children }: ILayout) => {
+  return (
     <>
       <Header />
-      { children }
+      {children}
       <Footer />
     </>
   )

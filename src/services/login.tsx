@@ -1,3 +1,5 @@
+export const WELCOME_MESSAGE = 'Bem vinda!'
+
 export const login = (): void => {
-    alert('Bem vinda!')
+    alert(WELCOME_MESSAGE)
 }

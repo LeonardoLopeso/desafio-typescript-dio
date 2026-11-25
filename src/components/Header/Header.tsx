@@ -1,9 +1,13 @@
 import './Header.css'
 
-export const Header  = () => {
-  return(
-    <div className='header'>
-      Dio Bank
-    </div>
+interface IHeader {
+  title?: string
+}
+
+export const Header = ({ title = 'Dio Bank' }: IHeader) => {
+  return (
+    <header className='header'>
+      <h1 className='header__title'>{title}</h1>
+    </header>
   )
 }
