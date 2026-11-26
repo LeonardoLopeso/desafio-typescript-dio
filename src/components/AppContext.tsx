@@ -1,31 +1,38 @@
-import { createContext, useEffect, useState } from "react"
-import { getAllLocalStorage } from "../services/storage"
+import { createContext, ReactNode, useState } from 'react'
+import { IUser } from '../services/login'
+import { changeLocalStorage, getStoredSession } from '../services/storage'
 
 interface IAppContext {
-    user: string,
-    isLoggedIn: boolean,
-    setIsLoggedIn: (isLoggedIn: boolean) => void
+    user: IUser | null
+    isLoggedIn: boolean
+    signIn: (user: IUser) => void
+    signOut: () => void
 }
-  
+
 export const AppContext = createContext({} as IAppContext)
-  
-export const AppContextProvider = ({ children }: any) => {
-    const [ isLoggedIn, setIsLoggedIn ] = useState<boolean>(false)
 
-    const storage = getAllLocalStorage()
+const getInitialUser = (): IUser | null => {
+    const session = getStoredSession()
 
-    useEffect(() => {
-      if(storage){
-        const { login } = JSON.parse(storage)
-        setIsLoggedIn(login)
-      }
-    }, [])
+    return session?.login && session.user ? session.user : null
+}
 
-    const user = 'nathally'
-  
+export const AppContextProvider = ({ children }: { children: ReactNode }) => {
+    const [ user, setUser ] = useState<IUser | null>(getInitialUser)
+
+    const signIn = (user: IUser) => {
+        changeLocalStorage({ login: true, user })
+        setUser(user)
+    }
+
+    const signOut = () => {
+        changeLocalStorage({ login: false })
+        setUser(null)
+    }
+
     return (
-      <AppContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
-        { children }
-      </AppContext.Provider>
+        <AppContext.Provider value={{ user, isLoggedIn: user !== null, signIn, signOut }}>
+            { children }
+        </AppContext.Provider>
     )
 }

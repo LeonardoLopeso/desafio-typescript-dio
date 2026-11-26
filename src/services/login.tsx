@@ -1,11 +1,21 @@
-import { api } from "../api"
+import { api } from '../api'
 
-export const login = async (email: string): Promise<boolean> => {
-    const data: any = await api
+export interface IUser {
+    id: string
+    name: string
+    email: string
+}
 
-    if(email !== data.email) {
-        return false
+export const login = async (email: string, password: string): Promise<IUser | null> => {
+    const conta = await api
+
+    if (email !== conta.email || password !== conta.password) {
+        return null
     }
 
-    return true
+    return {
+        id: conta.id,
+        name: conta.name,
+        email: conta.email
+    }
 }

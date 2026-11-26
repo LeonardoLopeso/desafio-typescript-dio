@@ -1,4 +1,12 @@
-const conta = {
+export interface IConta {
+    email: string
+    password: string
+    name: string
+    balance: number
+    id: string
+}
+
+const conta: IConta = {
     email: 'nath@dio.bank',
     password: '123456',
     name: 'Nathaly Souza',
@@ -6,7 +14,7 @@ const conta = {
     id: '1'
 }
 
-export const api = new Promise((resolve) => {
+export const api = new Promise<IConta>((resolve) => {
     setTimeout(() => {
         resolve(conta)
     }, 3000)
