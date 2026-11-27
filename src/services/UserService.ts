@@ -32,5 +32,16 @@ export class UserService {
     getAllUsers = () => {
         return this.db
     }
-}
 
+    deleteUser = (email: string): boolean => {
+        const index = this.db.findIndex((user) => user.email === email)
+
+        if(index === -1){
+            return false
+        }
+
+        this.db.splice(index, 1)
+        console.log('DB atualizado', this.db)
+        return true
+    }
+}
